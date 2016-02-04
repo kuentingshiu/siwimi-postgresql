@@ -1,0 +1,1 @@
+<property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>

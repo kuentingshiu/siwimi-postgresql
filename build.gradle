@@ -1,0 +1,66 @@
+buildscript {
+	ext {
+		springBootVersion = '1.2.3.RELEASE'
+	}
+	repositories {
+		// NOTE: You should declare only repositories that you need here
+		mavenCentral()
+		maven { url "http://repo.spring.io/release" }
+		maven { url "http://repo.spring.io/milestone" }
+		maven { url "http://repo.spring.io/snapshot" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'maven'
+apply plugin: 'war'
+
+sourceSets.test.java.srcDirs = ["src/test"]
+
+war {
+    baseName = 'siwimi-webapi'
+    version =  '0.1.0'
+}
+
+repositories {
+	mavenCentral()
+	maven { url "http://repo.spring.io/release" }
+	maven { url "http://repo.spring.io/milestone" }
+	maven { url "http://repo.spring.io/snapshot" }
+}
+
+dependencies {   
+    compile('org.springframework.boot:spring-boot-starter-web:1.2.3.RELEASE')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa:1.2.3.RELEASE')
+    compile('org.springframework.boot:spring-boot-starter-jdbc:1.2.3.RELEASE')
+    compile('org.postgresql:postgresql:9.4-1201-jdbc41')
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}
+
+task createPom << {
+    pom {
+        project {
+            groupId 'com.siwimi'
+            artifactId 'web-api'
+            version '0.0.1'
+
+            inceptionYear '2015'
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+        }
+    }.writeTo("pom.xml")
+}
